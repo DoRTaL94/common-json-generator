@@ -1,0 +1,22 @@
+{
+  "name": "configs-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app generate",
+    "clean:result": "node app clean-result",
+    "clean:source": "node app clean-source",
+    "clean:both": "node app clean-both",
+    "debug": "node --inspect app",
+    "mocha": "node_modules/.bin/mocha --reporter mochawesome --reporter-options reportDir=report,reportFilename=report,json=false --recursive tests/ --exit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "config": "^3.3.3",
+    "mocha": "^8.2.1",
+    "mochawesome": "^6.2.1"
+  }
+}

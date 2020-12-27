@@ -1,0 +1,86 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Mocha",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "mocha"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Generate",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "start"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Debug Generate",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "debug"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Clean Result",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "clean:result"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Clean Source",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "clean:source"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
+      "name": "Clean Both",
+      "request": "launch",
+      "runtimeArgs": [
+        "run-script",
+        "clean:both"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+  ]
+}
