@@ -70,6 +70,7 @@ class ConfigsGenerator {
     const yamlDir = `${this.dest}/yaml`;
     const strDir = `${this.dest}/string`;
 
+    this._createDir(this.dest);
     this._createDir(jsonDir);
     this._createDir(yamlDir);
     this._createDir(strDir);
