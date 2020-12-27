@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const config = require('config');
 
 
 class ConfigsGenerator {
@@ -36,15 +37,27 @@ class ConfigsGenerator {
     this._createDirs();
     this._readFiles(this.source)
     .then(files => {
+      const envs = ['development', 'ci', 'staging', 'prod-qa', 'production', 'testing'];
+      const configs = [];
+
+      envs.forEach(env => {
+        process.env.NODE_ENV = env;
+
+        configs.push({
+          filename: `${env}.json`,
+          contents: JSON.stringify(config.util.loadFileConfigs('source'))
+        });
+      });
+
       console.log('Loaded ', files.length, ' files');
-      const common = this._getCommonJson(files);
+      const common = this._getCommonJson(configs);
 
       if (options.generateCommon) {
         this._writeData(common, 'common', 'json');
       }
 
-      this._generateFilesWithoutCommon(files, common);
-      this._generateNewDefaultFile(files, common);
+      this._generateFilesWithoutCommon(configs, common);
+      this._writeData(common, 'default', 'json');
       this._generateCustomEnvironmentVariablesJson();
     })
     .catch(error => console.log(error));
@@ -267,9 +280,9 @@ class ConfigsGenerator {
     }
   }
 
-  _union(dest, source) {
+  _union(dest, source, handleConflict = (destObj, sourceObject) => destObj instanceof Object ? destObj : sourceObject) {
     if (!(dest instanceof Object) || !(source instanceof Object)) {
-      return dest instanceof Object ? dest : source;
+      return handleConflict(dest, source);
     }
 
     let cloneDest = JSON.parse(JSON.stringify(dest));
