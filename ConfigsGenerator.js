@@ -293,18 +293,20 @@ class ConfigsGenerator {
     }
 
     let cloneDest = JSON.parse(JSON.stringify(dest));
+    let isPropDeleted = false;
 
     for (const prop in source) {
       if (dest[prop] !== undefined) {
         cloneDest[prop] = this._different(cloneDest[prop], source[prop]);
 
         if (cloneDest[prop] === null) {
+          isPropDeleted = true;
           delete cloneDest[prop];
         }
       }
     }
 
-    return cloneDest;
+    return isPropDeleted && Object.keys(cloneDest).length === 0 ? null : cloneDest;
   }
 
   _intersect(dest, source) {
@@ -313,20 +315,23 @@ class ConfigsGenerator {
     }
 
     let cloneDest = JSON.parse(JSON.stringify(dest));
+    let isPropDeleted = false;
 
     for (const prop in dest) {
       if (source[prop] !== undefined) {
         cloneDest[prop] = this._intersect(cloneDest[prop], source[prop]);
 
         if (cloneDest[prop] === null) {
+          isPropDeleted = true;
           delete cloneDest[prop];
         }
       } else {
+        isPropDeleted = true;
         delete cloneDest[prop];
       }
     }
 
-    return cloneDest;
+    return Object.keys(cloneDest).length === 0 ? null : cloneDest;
   }
 }
 
