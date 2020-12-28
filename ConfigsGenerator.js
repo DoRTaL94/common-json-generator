@@ -293,45 +293,54 @@ class ConfigsGenerator {
     }
 
     let cloneDest = JSON.parse(JSON.stringify(dest));
-    let isPropDeleted = false;
 
     for (const prop in source) {
       if (dest[prop] !== undefined) {
         cloneDest[prop] = this._different(cloneDest[prop], source[prop]);
 
         if (cloneDest[prop] === null) {
-          isPropDeleted = true;
           delete cloneDest[prop];
         }
       }
     }
 
-    return Object.keys(cloneDest).length === 0 ? null : (isPropDeleted ? null : cloneDest);
+    return Object.keys(cloneDest).length === 0 ? null : cloneDest;
   }
 
+
+  /*
+    dest = []
+    source = [''a']
+  */
+
   _intersect(dest, source) {
+    if (Array.isArray(dest) && Array.isArray(source) && dest.length !== source.length) {
+      return null;
+    }
+
+    if (dest instanceof Object && Object.keys(dest).length === 0) {
+      return dest;
+    }
+    
     if (!(dest instanceof Object) || !(source instanceof Object)) {
       return dest === source ? dest : null;
     }
 
     let cloneDest = JSON.parse(JSON.stringify(dest));
-    let isPropDeleted = false;
 
     for (const prop in dest) {
       if (source[prop] !== undefined) {
         cloneDest[prop] = this._intersect(cloneDest[prop], source[prop]);
 
         if (cloneDest[prop] === null) {
-          isPropDeleted = true;
           delete cloneDest[prop];
         }
       } else {
-        isPropDeleted = true;
         delete cloneDest[prop];
       }
     }
 
-    return Object.keys(cloneDest).length === 0 ? null : (isPropDeleted ? null : cloneDest);
+    return Object.keys(cloneDest).length === 0 ? null : cloneDest;
   }
 }
 
