@@ -304,7 +304,7 @@ class ConfigsGenerator {
       }
     }
 
-    return Object.keys(cloneDest).length === 0 ? null : cloneDest;
+    return cloneDest;
   }
 
   _intersect(dest, source) {
@@ -326,7 +326,7 @@ class ConfigsGenerator {
       }
     }
 
-    return Object.keys(cloneDest).length === 0 ? null : cloneDest;
+    return cloneDest;
   }
 }
 
