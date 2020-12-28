@@ -306,7 +306,7 @@ class ConfigsGenerator {
       }
     }
 
-    return isPropDeleted && Object.keys(cloneDest).length === 0 ? null : cloneDest;
+    return Object.keys(cloneDest).length === 0 ? null : (isPropDelete ? null : cloneDest);
   }
 
   _intersect(dest, source) {
@@ -331,7 +331,7 @@ class ConfigsGenerator {
       }
     }
 
-    return isPropDeleted && Object.keys(cloneDest).length === 0 ? null : cloneDest;
+    return Object.keys(cloneDest).length === 0 ? null : (isPropDelete ? null : cloneDest);
   }
 }
 
