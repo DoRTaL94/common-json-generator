@@ -277,7 +277,7 @@ class ConfigsGenerator {
     let cloneDest = JSON.parse(JSON.stringify(dest));
 
     for (const prop in source) {
-      if (dest[prop]) {
+      if (dest[prop]  ned) {
         cloneDest[prop] = this._union(cloneDest[prop], source[prop]);
       } else {
         cloneDest[prop] = source[prop];
@@ -295,10 +295,10 @@ class ConfigsGenerator {
     let cloneDest = JSON.parse(JSON.stringify(dest));
 
     for (const prop in source) {
-      if (dest[prop]) {
+      if (dest[prop] !== undefined) {
         cloneDest[prop] = this._different(cloneDest[prop], source[prop]);
 
-        if (!cloneDest[prop]) {
+        if (cloneDest[prop] === null) {
           delete cloneDest[prop];
         }
       }
@@ -315,10 +315,10 @@ class ConfigsGenerator {
     let cloneDest = JSON.parse(JSON.stringify(dest));
 
     for (const prop in dest) {
-      if (source[prop]) {
+      if (source[prop] !== undefined) {
         cloneDest[prop] = this._intersect(cloneDest[prop], source[prop]);
 
-        if (!cloneDest[prop]) {
+        if (cloneDest[prop] === null) {
           delete cloneDest[prop];
         }
       } else {
