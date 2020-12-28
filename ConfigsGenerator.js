@@ -30,37 +30,36 @@ class ConfigsGenerator {
    * That properties are added to the "default.json" config.
    * Additionally, a new config file is created named "custom-environment-variable.json",
    * which holds all the properties that are not in the "default" config and that are in the other configs.
-   * @param {*} options 1. generateCommon: When true a file named 'common.json' is created and its content is the common properties of all the configs,
-   * except the configs which names are provided in the "filesNamesToIgnore" array.
    */
-  generateConfigs(options = {}) {
+  generateConfigs() {
     this._createDirs();
     this._readFiles(this.source)
     .then(files => {
-      const envs = ['development', 'ci', 'staging', 'prod-qa', 'production', 'testing'];
-      const configs = [];
-
-      envs.forEach(env => {
-        process.env.NODE_ENV = env;
-
-        configs.push({
-          filename: `${env}.json`,
-          contents: JSON.stringify(config.util.loadFileConfigs('source'))
-        });
-      });
-
       console.log('Loaded ', files.length, ' files');
+      const configs = this._loadConfigs(files);
       const common = this._getCommonJson(configs);
 
-      if (options.generateCommon) {
-        this._writeData(common, 'common', 'json');
-      }
-
-      this._generateFilesWithoutCommon(configs, common);
       this._writeData(common, 'default', 'json');
+      this._generateFilesWithoutCommon(configs, common);
       this._generateCustomEnvironmentVariablesJson();
     })
     .catch(error => console.log(error));
+  }
+
+  _loadConfigs(files) {
+    const configs = [];
+
+    files.forEach(file => {
+      const env = file.filename.split('.')[0];
+      process.env.NODE_ENV = env;
+
+      configs.push({
+        filename: `${env}.json`,
+        contents: JSON.stringify(config.util.loadFileConfigs('source'))
+      });
+    });
+
+    return configs;
   }
 
   _cleanHelper(dirPath) {
@@ -199,16 +198,6 @@ class ConfigsGenerator {
     }
 
     return res;
-  }
-
-  _generateNewDefaultFile(files, common) {
-    const file = this._findFile(files, 'default.json');
-
-    if(file.filename === 'default.json') {
-      const currDefault = JSON.parse(file.contents, null, 2);
-      const newDefault = this._union(currDefault, common);
-      this._writeData(newDefault, 'default', 'json');
-    }
   }
 
   _findFile(files, name) {
