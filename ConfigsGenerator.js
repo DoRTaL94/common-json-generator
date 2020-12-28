@@ -277,7 +277,7 @@ class ConfigsGenerator {
     let cloneDest = JSON.parse(JSON.stringify(dest));
 
     for (const prop in source) {
-      if (dest[prop]  ned) {
+      if (dest[prop]) {
         cloneDest[prop] = this._union(cloneDest[prop], source[prop]);
       } else {
         cloneDest[prop] = source[prop];
