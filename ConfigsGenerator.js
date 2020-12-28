@@ -331,7 +331,7 @@ class ConfigsGenerator {
       }
     }
 
-    return Object.keys(cloneDest).length === 0 ? null : cloneDest;
+    return isPropDeleted && Object.keys(cloneDest).length === 0 ? null : cloneDest;
   }
 }
 
