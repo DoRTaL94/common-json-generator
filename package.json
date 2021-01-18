@@ -8,7 +8,7 @@
     "clean:result": "node app clean-result",
     "clean:source": "node app clean-source",
     "clean:both": "node app clean-both",
-    "debug": "node --inspect app",
+    "debug": "node --inspect app generate",
     "mocha": "node_modules/.bin/mocha --reporter mochawesome --reporter-options reportDir=report,reportFilename=report,json=false --recursive tests/ --exit"
   },
   "author": "",

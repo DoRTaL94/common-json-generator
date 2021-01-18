@@ -116,7 +116,12 @@ class ConfigsGenerator {
 
           this._createKeyValueYaml(keyValueObj, filenameWithoutSuffix);
           this._createEnvVarStrForTesting(keyValueObj, filenameWithoutSuffix);
-          customEnvironmentVariables = this._union(customEnvironmentVariables, diffWithTreeConventionValues);
+          customEnvironmentVariables = this._union(customEnvironmentVariables, diffWithTreeConventionValues, (destObj, sourceObject) => {
+            if (file.filename.includes('dev')) {
+              return destObj;
+            }
+            return sourceObject;
+          });
         }
       }
 
@@ -278,7 +283,7 @@ class ConfigsGenerator {
 
     for (const prop in source) {
       if (dest[prop]) {
-        cloneDest[prop] = this._union(cloneDest[prop], source[prop]);
+        cloneDest[prop] = this._union(cloneDest[prop], source[prop], handleConflict);
       } else {
         cloneDest[prop] = source[prop];
       }
@@ -306,12 +311,6 @@ class ConfigsGenerator {
 
     return Object.keys(cloneDest).length === 0 ? null : cloneDest;
   }
-
-
-  /*
-    dest = []
-    source = [''a']
-  */
 
   _intersect(dest, source) {
     if (Array.isArray(dest) && Array.isArray(source) && dest.length !== source.length) {
